@@ -9,13 +9,10 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
+	"github.com/bedoodev/go-sqs-demo/internal/env"
 	"github.com/bedoodev/go-sqs-demo/internal/model"
 	"github.com/bedoodev/go-sqs-demo/internal/producer"
 	"github.com/google/uuid"
-)
-
-const (
-	SqsQueueURL string = "https://sqs.eu-central-1.amazonaws.com/442643144658/demo-queue"
 )
 
 func main() {
@@ -27,7 +24,7 @@ func main() {
 
 	sqsClient := sqs.NewFromConfig(cfg)
 
-	orderProducer := producer.New(sqsClient, SqsQueueURL)
+	orderProducer := producer.New(sqsClient, env.LoadSQSQueueURL())
 
 	randomEventID, err := uuid.NewV7()
 	if err != nil {
